@@ -1,4 +1,5 @@
 ﻿using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 
 internal class Program
@@ -13,18 +14,32 @@ internal class Program
     private static async Task Update(ITelegramBotClient client, Update update, CancellationToken token)
     {
         var message = update.Message;
-        if(message != null)
+        if (message != null)
         {
-            if (message.Text.ToLower().Contains("привет"))
+            if (!string.IsNullOrEmpty(message.Text))
             {
-                await client.SendTextMessageAsync(message.Chat.Id, message.Text);
-                return;
+                //Business logic
+
+
+                if (message.Text.ToLower().Contains("привет"))
+                {
+                    await client.SendTextMessageAsync(message.Chat.Id, message.Text);
+                    return;
+                }
             }
         }
     }
 
     private static Task Error(ITelegramBotClient client, Exception exception, CancellationToken token)
     {
-        throw new NotImplementedException();
+        var ErrorMessage = exception switch
+        {
+            ApiRequestException apiRequestException
+                => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
+            _ => exception.ToString()
+        };
+
+        Console.WriteLine(ErrorMessage);
+        return Task.CompletedTask;
     }
 }
