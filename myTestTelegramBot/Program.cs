@@ -1,9 +1,18 @@
-﻿using Telegram.Bot;
+﻿using myTestTelegramBot.Models;
+using myTestTelegramBot.Services;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 
 internal class Program
 {
+    static JsonSerializerOptions options = new JsonSerializerOptions
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        WriteIndented = true
+    };
     private static void Main(string[] args)
     {
         var client = new TelegramBotClient("6382152721:AAEqD1HF0Ai6H5ObJptgk9PGCd8DoGasf28");
@@ -18,14 +27,11 @@ internal class Program
         {
             if (!string.IsNullOrEmpty(message.Text))
             {
-                //Business logic
-
-
-                if (message.Text.ToLower().Contains("привет"))
-                {
-                    await client.SendTextMessageAsync(message.Chat.Id, message.Text);
-                    return;
-                }
+                var transaction = new TransactionModel(message.Text);
+                GoogleWorker.Add(transaction);
+                var json = JsonSerializer.Serialize(transaction, options);
+                await client.SendTextMessageAsync(message.Chat.Id, json);
+                return;
             }
         }
     }
