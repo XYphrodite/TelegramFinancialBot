@@ -4,18 +4,13 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using myTestTelegramBot.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace myTestTelegramBot.Services
 {
     public class GoogleWorker
     {
-        public static async Task Add(TransactionModel transaction)
+        public static void Add(TransactionModel transaction)
         {
             try
             {
