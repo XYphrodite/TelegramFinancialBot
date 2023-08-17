@@ -15,6 +15,7 @@
         }
         public string? CategoryStr { get; set; }
         public DateTime Date { get; set; }
+        public string Text { get; set; }
 
 
 
