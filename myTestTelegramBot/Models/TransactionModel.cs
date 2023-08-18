@@ -8,7 +8,6 @@ namespace myTestTelegramBot.Models
         public string UserName { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
-
         public string Category { get; set; }
         public DateTime Date { get; set; }
         public string Text { get; set; }
@@ -16,8 +15,9 @@ namespace myTestTelegramBot.Models
 
         public TransactionModel(Message message)
         {
-            Text = message.Text;
+            Text = !string.IsNullOrEmpty(message.Text) ? message.Text : "—";
             Date = DateTime.Today;
+            UserName = !string.IsNullOrEmpty(message.From.Username) ? message.From.Username : "—";
         }
         //public enum TransactionType : byte
         //{
