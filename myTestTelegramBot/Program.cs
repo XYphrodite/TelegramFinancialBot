@@ -27,7 +27,7 @@ internal class Program
         {
             if (!string.IsNullOrEmpty(message.Text))
             {
-                var transaction = new TransactionModel(message.Text);
+                var transaction = new TransactionModel(message);
                 GoogleWorker.Add(transaction);
                 var json = JsonSerializer.Serialize(transaction, options);
                 await client.SendTextMessageAsync(message.Chat.Id, json);
