@@ -29,8 +29,8 @@ internal class Program
             {
                 var transaction = new TransactionModel(message);
                 GoogleWorker.Add(transaction);
-                var json = JsonSerializer.Serialize(transaction, options);
-                await client.SendTextMessageAsync(message.Chat.Id, json);
+                //var json = JsonSerializer.Serialize(transaction, options);
+                await client.SendTextMessageAsync(message.Chat.Id, "Добавлено\n"+ message.Text);
                 return;
             }
         }
