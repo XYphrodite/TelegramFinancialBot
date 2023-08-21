@@ -18,6 +18,9 @@ namespace myTestTelegramBot.Models
             Text = !string.IsNullOrEmpty(message.Text) ? message.Text : "—";
             Date = DateTime.Today;
             UserName = !string.IsNullOrEmpty(message.From.Username) ? message.From.Username : "—";
+            Type = "";
+            Category = "";
+            UserId = message.From.Id.ToString();
         }
         //public enum TransactionType : byte
         //{

@@ -19,7 +19,7 @@ namespace myTestTelegramBot.Services
         private const string User = "user";
         private const string SheetLink = "1MMJnUAx7IFlQB4Yg-bbAypuhlAlIFlRc1eT3cwi4-Jk";
         private const string SheetName = "data";
-        private static readonly string SheetRange = SheetName + "!A:E";
+        private static readonly string SheetRange = SheetName + "!A:G";
 
         public static void Add(TransactionModel transaction)
         {
@@ -40,7 +40,7 @@ namespace myTestTelegramBot.Services
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };
                 ValueRange getResponse = getRequest.Execute();
                 IList<IList<object>> values = getResponse.Values;
-                var range = $"{"" + SheetName + ""}!A" + (values.Count + 1) + ":E" + (values.Count + 1);
+                var range = $"{"" + SheetName + ""}!A" + (values.Count + 1) + ":G" + (values.Count + 1);
                 
 
                 var valueRange = new ValueRange();
