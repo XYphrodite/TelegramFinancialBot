@@ -21,7 +21,7 @@ namespace myTestTelegramBot.Services
         private const string SheetName = "data";
         private static readonly string SheetRange = SheetName + "!A:G";
 
-        public static void Add(TransactionModel transaction)
+        private static void Add(TransactionModel transaction)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace myTestTelegramBot.Services
 
                 var valueRange = new ValueRange();
                 valueRange.Values = new List<IList<object>> { new List<object>() {
-                    transaction.UserName,
+                    //transaction.UserName,
                     transaction.UserId,
                     transaction.Date.ToShortDateString(),
                     transaction.Type,

@@ -4,8 +4,9 @@ namespace myTestTelegramBot.Models
 {
     public class TransactionModel
     {
+        public int Id { get; set; }
         public string UserId { get; set; }
-        public string UserName { get; set; }
+        public UserModel User { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
         public string Category { get; set; }
@@ -17,10 +18,13 @@ namespace myTestTelegramBot.Models
         {
             Text = !string.IsNullOrEmpty(message.Text) ? message.Text : "—";
             Date = DateTime.Today;
-            UserName = !string.IsNullOrEmpty(message.From.Username) ? message.From.Username : "—";
+            //UserName = !string.IsNullOrEmpty(message.From.Username) ? message.From.Username : "—";
             Type = "";
             Category = "";
             UserId = message.From.Id.ToString();
+        }
+        public TransactionModel()
+        {
         }
         //public enum TransactionType : byte
         //{
