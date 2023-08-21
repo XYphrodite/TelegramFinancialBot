@@ -5,7 +5,7 @@ namespace myTestTelegramBot.Models
     public class TransactionModel
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public UserModel User { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
@@ -17,11 +17,10 @@ namespace myTestTelegramBot.Models
         public TransactionModel(Message message)
         {
             Text = !string.IsNullOrEmpty(message.Text) ? message.Text : "—";
-            Date = DateTime.Today;
-            //UserName = !string.IsNullOrEmpty(message.From.Username) ? message.From.Username : "—";
+            Date = DateTime.Now;
+            //User = new UserModel(message);
             Type = "";
             Category = "";
-            UserId = message.From.Id.ToString();
         }
         public TransactionModel()
         {

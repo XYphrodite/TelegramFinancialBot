@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using myTestTelegramBot.Models;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace myTestTelegramBot.Data
 {
@@ -15,11 +10,12 @@ namespace myTestTelegramBot.Data
 
 
         public DbSet<TransactionModel> Transactions { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         public ApplicationContext()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
-            Database.EnsureCreated();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

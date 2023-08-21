@@ -46,7 +46,7 @@ namespace myTestTelegramBot.Services
                 var valueRange = new ValueRange();
                 valueRange.Values = new List<IList<object>> { new List<object>() {
                     //transaction.UserName,
-                    transaction.UserId,
+                    //transaction.UserId,
                     transaction.Date.ToShortDateString(),
                     transaction.Type,
                     transaction.Category,
