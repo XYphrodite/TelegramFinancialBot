@@ -15,7 +15,6 @@ namespace myTestTelegramBot.Data
         public ApplicationContext()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
