@@ -5,14 +5,13 @@ namespace myTestTelegramBot.Models
     public class TransactionModel
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public UserModel User { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
         public string Category { get; set; }
         public DateTime Date { get; set; }
         public string Text { get; set; }
-
 
         public TransactionModel(Message message)
         {
