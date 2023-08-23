@@ -6,18 +6,21 @@ namespace myTestTelegramBot.Services
 {
     public class Repository
     {
-        public static async Task Add(TransactionModel model)
+        private readonly ApplicationContext _context;
+
+        public Repository(ApplicationContext context)
         {
-            using (ApplicationContext context = new ApplicationContext())
+            _context = context;
+        }
+        public async Task Add(TransactionModel model)
+        {
+            if (TryGetUser(model.User.UserId, out var user))
             {
-                if (TryGetUser(model.User.UserId, out var user))
-                {
-                    model.UserId = user.Id;
-                    model.User = null;
-                }
-                await context.Transactions.AddAsync(model);
-                await context.SaveChangesAsync();
+                model.UserId = user.Id;
+                model.User = null;
             }
+            await _context.Transactions.AddAsync(model);
+            await _context.SaveChangesAsync();
 
         }
 
@@ -30,19 +33,15 @@ namespace myTestTelegramBot.Services
         //    }
         //}
 
-        public static bool TryGetUser(long userId, out UserModel user)
+        public bool TryGetUser(long userId, out UserModel user)
         {
-            using (ApplicationContext context = new ApplicationContext())
-                user = context.Users.FirstOrDefault(u => u.UserId == userId);
+            user = _context.Users.FirstOrDefault(u => u.UserId == userId);
             return user != null;
         }
 
-        public static async Task<UserModel> GetUser(Guid id)
+        public async Task<UserModel> GetUser(Guid id)
         {
-            using (ApplicationContext context = new ApplicationContext())
-            {
-                return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            }
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
     }
