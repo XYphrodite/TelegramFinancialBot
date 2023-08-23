@@ -4,7 +4,7 @@ using myTestTelegramBot.Models;
 
 namespace myTestTelegramBot.Services
 {
-    public class Repository
+    public class Repository<TEntity> where TEntity : class
     {
         public static async Task Add(TransactionModel model)
         {
@@ -35,6 +35,18 @@ namespace myTestTelegramBot.Services
             using (ApplicationContext context = new ApplicationContext())
                 user = context.Users.FirstOrDefault(u => u.UserId == userId);
             return user != null;
+        }
+
+        public static async Task<IEnumerable<TEntity>> Get(object id)
+        {
+            if(TEntity is TransactionModel)
+            {
+                using (ApplicationContext context = new ApplicationContext())
+                {
+                    return await context.Transactions.ToListAsync();
+                }
+            }
+            return null;
         }
 
     }
