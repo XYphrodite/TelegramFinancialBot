@@ -39,10 +39,10 @@ namespace myTestTelegramBot.Services
             return user != null;
         }
 
-        public async Task<UserModel> GetUser(Guid id)
-        {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-        }
+        public async Task<UserModel> GetUser(long id) =>
+            await _context.Users
+            .Include(u => u.Transactions)
+            .FirstOrDefaultAsync(u => u.UserId == id);
 
     }
 }

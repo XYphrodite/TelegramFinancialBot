@@ -6,6 +6,7 @@ using Telegram.Bot.Types;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TelegramFinanicialBot.Services;
+using TelegramFinanicialBot.Consts;
 
 namespace TelegramFinanicialBot
 {
@@ -40,15 +41,77 @@ namespace TelegramFinanicialBot
                 if (!string.IsNullOrEmpty(message.Text))
                 {
                     _log.LogInformation(GetLogMsg());
-                    var transaction = new TransactionModel(message);
-                    await _repository.Add(transaction);
-                    await client.SendTextMessageAsync(message.Chat.Id, "Добавлено\n" + message.Text);
-                    return;
+                    if (IsCommand())
+                    {
+                        await DoCommand();
+                    }
+                    else
+                    {
+                        await AddTransaction();
+                    }
+                }
+                else if (message.Audio != null)
+                {
+                    await client.SendTextMessageAsync(message.Chat.Id, "Аудио формат не поддерживается!\nТолько текст.");
+                }
+                else if (message.Voice != null)
+                {
+                    await client.SendTextMessageAsync(message.Chat.Id, "Формат голосовых сообщений не поддерживается!\nТолько текст.");
+                }
+                else if (message.VideoNote != null || message.Video != null)
+                {
+                    await client.SendTextMessageAsync(message.Chat.Id, "Видео формат не поддерживается!\nТолько текст.");
+                }
+                else
+                {
+                    await client.SendTextMessageAsync(message.Chat.Id, "Низвестный формат!");
                 }
             }
+            return;
 
 
             string GetLogMsg() => message.From.Username + ":\t" + message.Text;
+            bool IsCommand() => message.Text[0] is '/' ? true : false;
+            async Task DoCommand()
+            {
+                UserModel user;
+                switch (message.Text)
+                {
+                    case BotCommands.Start:
+                        await client.SendTextMessageAsync(message.Chat.Id, "Приступим.");
+                        break;
+                    case BotCommands.GetLastFive:
+                        user = await _repository.GetUser(message.From.Id);
+                        var lastFive = user.Transactions.OrderBy(t => t.Date).TakeLast(5);
+                        await client.SendTextMessageAsync(message.Chat.Id, GetText(lastFive));
+                        break;
+                    case BotCommands.GetAll:
+                        user = await _repository.GetUser(message.From.Id);
+                        var transactions = user.Transactions.OrderBy(t => t.Date);
+                        await client.SendTextMessageAsync(message.Chat.Id, GetText(transactions));
+                        break;
+                    case BotCommands.Delete:
+                        break;
+                    default:
+                        await client.SendTextMessageAsync(message.Chat.Id, "Такой команды не найдено!");
+                        break;
+                }
+            }
+            string GetText(IEnumerable<TransactionModel> transactions)
+            {
+                string toReturn = string.Empty;
+                foreach (var transaction in transactions)
+                {
+                    toReturn += transaction.Text + Environment.NewLine;
+                }
+                return toReturn;
+            }
+            async Task AddTransaction()
+            {
+                var transaction = new TransactionModel(message);
+                await _repository.Add(transaction);
+                await client.SendTextMessageAsync(message.Chat.Id, "Добавлено\n" + message.Text);
+            }
         }
 
         private Task Error(ITelegramBotClient client, Exception exception, CancellationToken token)

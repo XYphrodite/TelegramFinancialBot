@@ -2,13 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using myTestTelegramBot.Data;
-using myTestTelegramBot.Models;
 using myTestTelegramBot.Services;
 using Serilog;
-
-using Telegram.Bot;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Types;
 using TelegramFinanicialBot;
 using TelegramFinanicialBot.Services;
 
@@ -42,7 +37,7 @@ internal class Program
 
         while (true)
         {
-            string com = Console.ReadLine();
+            string? com = Console.ReadLine();
             if (com == "exit") return;
             else Console.WriteLine("Такой команды не найдено");
         }

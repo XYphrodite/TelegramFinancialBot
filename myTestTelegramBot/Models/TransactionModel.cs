@@ -16,7 +16,7 @@ namespace myTestTelegramBot.Models
         public TransactionModel(Message message)
         {
             Text = !string.IsNullOrEmpty(message.Text) ? message.Text : "—";
-            Date = DateTime.Now;
+            Date = message.Date;
             User = new UserModel(message.From.Id, message.From.Username);
             Type = "";
             Category = "";
