@@ -1,4 +1,4 @@
-﻿namespace TelegramFinanicialBot
+﻿namespace TelegramFinanicialBot.Services
 {
     public interface ITelegrammBot
     {

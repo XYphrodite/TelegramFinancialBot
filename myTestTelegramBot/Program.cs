@@ -10,6 +10,7 @@ using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using TelegramFinanicialBot;
+using TelegramFinanicialBot.Services;
 
 internal class Program
 {
@@ -39,10 +40,13 @@ internal class Program
         var svc = ActivatorUtilities.CreateInstance<TelegrammBot>(host.Services);
         svc.Run();
 
-        Console.ReadLine();
+        while (true)
+        {
+            string com = Console.ReadLine();
+            if (com == "exit") return;
+            else Console.WriteLine("Такой команды не найдено");
+        }
     }
-
-
 
 
     private static void BuildConfig(IConfigurationBuilder builder)

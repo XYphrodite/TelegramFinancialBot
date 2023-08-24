@@ -5,6 +5,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using TelegramFinanicialBot.Services;
 
 namespace TelegramFinanicialBot
 {
