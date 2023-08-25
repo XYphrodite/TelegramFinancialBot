@@ -38,8 +38,13 @@ namespace myTestTelegramBot.Services
             user = _context.Users.FirstOrDefault(u => u.UserId == userId);
             return user != null;
         }
+        public async Task Delete(TransactionModel model)
+        {
+            _context.Transactions.Remove(model);
+            await _context.SaveChangesAsync();
+        }
 
-        public async Task<UserModel> GetUser(long id) =>
+        public async Task<UserModel?> GetUser(long id) =>
             await _context.Users
             .Include(u => u.Transactions)
             .FirstOrDefaultAsync(u => u.UserId == id);
