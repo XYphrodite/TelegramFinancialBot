@@ -153,7 +153,7 @@ namespace TelegramFinanicialBot
                     }
                     var transactions = user.Transactions
                         .OrderBy(t => t.Date)
-                        .Where(t => t.Date.Date.ToShortDateString() == message.Date.ToShortDateString());
+                        .Where(t => t.Date.Date == message.Date.Date);
                     string response = GetText(transactions, "Ваши транзакции за сегодня:\n");
                     await client.SendTextMessageAsync(message.Chat.Id, response);
                 } //fix
@@ -167,7 +167,7 @@ namespace TelegramFinanicialBot
                     }
                     var transactions = user.Transactions
                         .OrderBy(t => t.Date)
-                        .Where(t => t.Date.Date >= message.Date.AddDays(-2) && t.Date.Date <= message.Date.AddDays(-1));
+                        .Where(t => t.Date.Date >= message.Date.Date.AddDays(-2) && t.Date.Date <= message.Date.Date.AddDays(-1));
                     string response = GetText(transactions, "Ваши транзакции за вчерашний день:\n");
                     await client.SendTextMessageAsync(message.Chat.Id, response);
                 } //fix
@@ -181,7 +181,7 @@ namespace TelegramFinanicialBot
                     }
                     var transactions = user.Transactions
                         .OrderBy(t => t.Date)
-                        .Where(t => t.Date.Date > message.Date.AddDays(-7) && t.Date.Date <= message.Date);
+                        .Where(t => t.Date.Date > message.Date.Date.AddDays(-7) && t.Date.Date <= message.Date.Date);
                     string response = GetText(transactions, "Ваши транзакции за последнюю неделю:\n");
                     await client.SendTextMessageAsync(message.Chat.Id, response);
                 }
@@ -195,7 +195,7 @@ namespace TelegramFinanicialBot
                     }
                     var transactions = user.Transactions
                         .OrderBy(t => t.Date)
-                        .Where(t => t.Date.Date > message.Date.AddDays(-30) && t.Date.Date <= message.Date);
+                        .Where(t => t.Date.Date > message.Date.Date.AddDays(-30) && t.Date.Date <= message.Date.Date);
                     string response = GetText(transactions, "Ваши транзакции за последний месяц:\n");
                     await client.SendTextMessageAsync(message.Chat.Id, response);
                 }
