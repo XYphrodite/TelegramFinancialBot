@@ -40,6 +40,11 @@ namespace TelegramFinanicialBot
             {
                 if (!string.IsNullOrEmpty(message.Text))
                 {
+                    if (string.IsNullOrEmpty(message.From.Username))
+                    {
+                        await client.SendTextMessageAsync(message.Chat.Id, "Не вижу ваш ник!!");
+                        return;
+                    }
                     _log.LogInformation(GetLogMsg());
                     if (IsCommand())
                     {
